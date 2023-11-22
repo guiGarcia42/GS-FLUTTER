@@ -10,6 +10,9 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
 
+  var tipoGenero = '';
+  var typeActivityLevel = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +73,10 @@ class _FormPageState extends State<FormPage> {
           child: Text('Feminino'),
         ),
       ],
-      onChanged: (value) {},
+      onChanged: (value) {
+        tipoGenero = value!;
+        setState(() {});
+      },
     );
   }
 
@@ -130,7 +136,9 @@ class _FormPageState extends State<FormPage> {
               Text('Exercício muito intenso diariamente, ou trabalho físico'),
         ),
       ],
-      onChanged: (value) {},
+      onChanged: (value) {
+        typeActivityLevel = value!;
+      },
     );
   }
 
