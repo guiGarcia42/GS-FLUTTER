@@ -1,10 +1,17 @@
 // ReesultPage é a tela que exibe o resultado do calculo de calorias diáriasR
 import 'package:flutter/material.dart';
+import 'package:gs_2/api/fitness_calculator_api.dart';
 import 'package:gs_2/models/daily_calorie.dart';
 
 class ResultPage extends StatefulWidget {
+  final int age, weight, height, activityLevel;
+  final String genre;
   const ResultPage({
-    super.key,
+    required this.age,
+    required this.weight,
+    required this.height,
+    required this.activityLevel,
+    required this.genre,
   });
 
   @override
@@ -12,19 +19,39 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  final api = FitnessCalculatorApi();
+  late Future<DailyCalorie?> _futureDailyCalorie;
+
   @override
   void initState() {
+    _futureDailyCalorie = api.getDailyCalories(
+        age: widget.age,
+        genre: widget.genre,
+        weight: widget.weight,
+        height: widget.height,
+        activityLevel: widget.activityLevel);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Calorias diárias'),
-        ),
-        // Remove o Widgt de center e add o FutureBuilder para exibir o resultado
-        body: const Center(child: Text('Resultado')));
+      appBar: AppBar(
+        title: const Text('Calorias diárias'),
+      ),
+      // Remove o Widgt de center e add o FutureBuilder para exibir o resultado
+      body: FutureBuilder<DailyCalorie?>(
+          future: _futureDailyCalorie,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.data == null)
+              return const Text("Something went wrong");
+
+            return _buildResult(snapshot.data!);
+          }),
+    );
   }
 
   // Utilize o metodo abaixo para criar o corpo da tela de resultado
