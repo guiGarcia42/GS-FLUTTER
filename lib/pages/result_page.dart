@@ -4,7 +4,8 @@ import 'package:gs_2/api/fitness_calculator_api.dart';
 import 'package:gs_2/models/daily_calorie.dart';
 
 class ResultPage extends StatefulWidget {
-  final int age, weight, height, activityLevel;
+  final int age, weight, height;
+  final String activityLevel;
   final String genre;
   const ResultPage({
     required this.age,

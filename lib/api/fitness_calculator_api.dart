@@ -9,7 +9,7 @@ class FitnessCalculatorApi {
   final String host = 'fitness-calculator.p.rapidapi.com';
 
   //R criem o metodo abaixo para fazer a requisição e retornar um DailyCalorie
-  Future<DailyCalorie?> getDailyCalories ({required int age, required String genre, required int weight, required int height, required int activityLevel,}) async {
+  Future<DailyCalorie?> getDailyCalories ({required int age, required String genre, required int weight, required int height, required String activityLevel,}) async {
     final url = '${baseUrl}dailycalorie?age=$age&gender=$genre&weight=$weight&height=$height&activitylevel=$activityLevel';
     var response = await http.get(
       Uri.parse(url),

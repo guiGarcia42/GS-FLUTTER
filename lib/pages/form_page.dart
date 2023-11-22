@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gs_2/pages/result_page.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -9,7 +10,7 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
-  final ageController = TextEditingController();
+  final ageController =  TextEditingController();
   final heightController = TextEditingController();
   final weightController = TextEditingController();
 
@@ -89,7 +90,6 @@ class _FormPageState extends State<FormPage> {
       ],
       onChanged: (value) {
         tipoGenero = value!;
-        setState(() {});
       },
     );
   }
@@ -192,13 +192,20 @@ class _FormPageState extends State<FormPage> {
           final isValid = _formKey.currentState!.validate();
 
           if (isValid) {
-            final age = ageController.text;
-            final weight = weightController;
-            final height = heightController;
+            final age = int.parse(ageController.text);
+            final weight = int.parse(weightController.text);
+            final height = int.parse(heightController.text);
+            final activityLevel = typeActivityLevel;
+            final genre = tipoGenero;
 
             print(age);
             print(weight);
             print(height);
+
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) => ResultPage(age: age, weight: weight, height: height, activityLevel: activityLevel, genre: genre)));
           }
         },
       ),
