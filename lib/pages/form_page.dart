@@ -9,6 +9,10 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
+  final ageController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +48,22 @@ class _FormPageState extends State<FormPage> {
 
   _buildAge() {
     return TextFormField(
+      controller: ageController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         hintText: 'Informe sua idade',
         labelText: 'Idade',
         border: OutlineInputBorder(),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Informe sua Idade';
+        }
+        if (int.parse(value) < 0 || int.parse(value) > 80) {
+          return 'A idade deve ser positiva e menor que 80';
+        }
+        return null;
+      },
     );
   }
 
@@ -76,23 +90,43 @@ class _FormPageState extends State<FormPage> {
 
   _buildWeight() {
     return TextFormField(
+      controller: weightController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         hintText: 'Informe seu peso (kg)',
         labelText: 'Peso',
         border: OutlineInputBorder(),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Informe seu Peso';
+        }
+        if (int.parse(value) < 40 || int.parse(value) > 160) {
+          return 'O peso deve ser entre 40 e 160';
+        }
+        return null;
+      },
     );
   }
 
   _buildHeight() {
     return TextFormField(
+      controller: heightController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         hintText: 'Informe sua altura (cm)',
         labelText: 'Altura',
         border: OutlineInputBorder(),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Informe sua altura';
+        }
+        if (int.parse(value) < 130 || int.parse(value) > 230) {
+          return 'A altura deve ser entre 130cm e 230cm';
+        }
+        return null;
+      },
     );
   }
 
@@ -145,7 +179,20 @@ class _FormPageState extends State<FormPage> {
             style: TextStyle(fontSize: 20),
           ),
         ),
-        onPressed: () async {},
+        onPressed: () async {
+
+          final isValid = _formKey.currentState!.validate();
+
+          if (isValid) {
+            final age = ageController.text;
+            final weight = weightController;
+            final height = heightController;
+
+            print(age);
+            print(weight);
+            print(height);
+          }
+        },
       ),
     );
   }
